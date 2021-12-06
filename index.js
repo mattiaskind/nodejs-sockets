@@ -11,6 +11,15 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('En användare anslöt');
+
+  socket.on('chat-message', (msg) => {
+    console.log(msg);
+    io.emit('chat-message', msg);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('En användare avslutade');
+  });
 });
 
 server.listen(3000, () => {
