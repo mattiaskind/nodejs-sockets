@@ -29,7 +29,7 @@ io.on('connection', (socket) => {
     if (users[socket.id.toLocaleLowerCase] === guest) {
       io.emit('change', `${guest} byter namn till ${msgData.name}`);
     } else if (users[socket.id] !== msgData.name) {
-      io.emit('change', `${users[socket.id]} byter namn till ${msgData.name}`);
+      io.emit('change', `${users[socket.id]} ändrade namn till ${msgData.name}`);
       users[socket.id] = msgData.name;
       io.emit('updateUsersList', users);
     }
@@ -37,6 +37,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
+    io.emit('change', `${users[socket.id]} lämnade chatten.`);
     delete users[socket.id];
     io.emit('updateUsersList', users);
     //users = users.filter((user) => user.id !== socket.id);

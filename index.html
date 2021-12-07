@@ -5,10 +5,11 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <ul id="messages"></ul>
+    <ul class="messages"></ul>
+
     <div class="form-container">
-      <div class="online">
-        Online:
+      <div>
+        <span class="online-title">Online</span>
         <ul class="online-list"></ul>
       </div>
 
@@ -37,7 +38,7 @@
       const form = document.querySelector('form');
       const name = document.querySelector('#name');
       const input = document.querySelector('#input');
-      const messages = document.querySelector('#messages');
+      const messages = document.querySelector('.messages');
       const onlineList = document.querySelector('.online-list');
 
       form.addEventListener('submit', (e) => {

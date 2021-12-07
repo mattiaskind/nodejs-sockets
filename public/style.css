@@ -26,10 +26,6 @@ body {
   color: rgb(26, 110, 84);
 }
 
-.event {
-  background-color: rgb(160, 221, 201);
-}
-
 .input-field-container {
   display: flex;
   align-items: center;
@@ -55,16 +51,24 @@ input[type='text'] {
   width: 98%;
 }
 
-#messages {
+.messages {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-#messages > li {
+.messages > li {
   padding: 1rem 1rem;
 }
-#messages > li:nth-child(odd) {
+.messages > li:nth-child(odd) {
   background: #efefef;
+}
+
+.event {
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: rgb(63, 146, 118);
+  background-color: rgb(172, 235, 214) !important;
 }
 
 input {
@@ -83,12 +87,19 @@ button {
   cursor: pointer;
 }
 
+.online-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 .online-list {
   list-style-type: none;
   display: flex;
   gap: 0.5rem;
   background-color: rgb(108, 184, 160);
   padding-block: 0.5rem;
+  margin: 0.2rem;
 }
 
 .online-list li {
