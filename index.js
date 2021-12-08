@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
     // Kontrollera om användarnamnet har ändrats och uppdatera i så fall det samt sänd
     // ut det nya användarnamnet till övriga deltagare
     if (users[socket.id] !== msgData.userName) {
-      io.emit('change', `${users[socket.id]} ändrade namn till ${msgData.userName}`);
+      socket.broadcast.emit('change', `${users[socket.id]} ändrade namn till ${msgData.userName}`);
       users[socket.id] = msgData.userName;
       io.emit('updateUsersList', users);
     }
@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
   // När någon lämnar chatten
   socket.on('disconnect', () => {
     // Meddela övriga användare om vem som lämnat
-    io.emit('change', `${users[socket.id]} lämnade chatten`);
+    socket.broadcast.emit('change', `${users[socket.id]} lämnade chatten`);
     // Ta bort användaren från objektet med användare
     delete users[socket.id];
     // Skicka signal till klienten att uppdatera listan med användare
@@ -52,8 +52,7 @@ io.on('connection', (socket) => {
     // } else {
     //   io.emit('typing', `${users[socket.id]} amn och skriver ett meddelande...`);
     // }
-
-    io.emit('typing', `${users[socket.id]} skriver...`);
+    socket.broadcast.emit('typing', `${users[socket.id]} skriver...`);
   });
 });
 
