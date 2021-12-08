@@ -46,13 +46,14 @@ io.on('connection', (socket) => {
     io.emit('updateUsersList', users);
   });
 
+  // När servern får signal om att någon skriver ska det skickas ut till övriga anslutna
   socket.on('typing', (user) => {
-    // if (users[socket.id] === user.userName) {
-    //   io.emit('typing', `${user} skriver...`);
-    // } else {
-    //   io.emit('typing', `${users[socket.id]} amn och skriver ett meddelande...`);
-    // }
     socket.broadcast.emit('typing', `${users[socket.id]} skriver...`);
+  });
+
+  // När någon slutar skriva ska det skickas till övriga
+  socket.on('no-longer-typing', () => {
+    socket.broadcast.emit('no-longer-typing');
   });
 });
 
