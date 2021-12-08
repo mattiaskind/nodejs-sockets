@@ -20,10 +20,22 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1rem;
+  padding-bottom: 1rem;
   background-color: rgb(160, 221, 201);
-  border-top: 1px solid rgb(90, 158, 136);
   color: rgb(26, 110, 84);
+}
+
+.typing-info {
+  background-color: white;
+  padding: 0.2rem 1.5rem;
+  border-bottom: 1px solid rgb(90, 158, 136);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+form {
+  padding: 0 1rem;
 }
 
 .input-field-container {
@@ -91,6 +103,7 @@ button {
   font-size: 1.2rem;
   font-weight: 700;
   text-transform: uppercase;
+  padding-left: 1.5rem;
 }
 
 .online-list {

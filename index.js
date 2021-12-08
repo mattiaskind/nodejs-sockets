@@ -12,35 +12,48 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+// Ett objekt som lagrar användare online och deras id/namn
 let users = {};
 
+// Namnet som en användare får vid första anslutningen
 const guest = 'Gäst';
 
 io.on('connection', (socket) => {
-  console.log(users);
-
   // Körs vid ny anslutning
-  //users[socket.id] = 'Guest';
-
   users[socket.id] = guest;
   io.emit('updateUsersList', users);
 
+  // När servern tar emot ett nytt chatmeddelande
   socket.on('chat-message', (msgData) => {
-    if (users[socket.id.toLocaleLowerCase] === guest) {
-      io.emit('change', `${guest} byter namn till ${msgData.name}`);
-    } else if (users[socket.id] !== msgData.name) {
-      io.emit('change', `${users[socket.id]} ändrade namn till ${msgData.name}`);
-      users[socket.id] = msgData.name;
+    // Kontrollera om användarnamnet har ändrats och uppdatera i så fall det samt sänd
+    // ut det nya användarnamnet till övriga deltagare
+    if (users[socket.id] !== msgData.userName) {
+      io.emit('change', `${users[socket.id]} ändrade namn till ${msgData.userName}`);
+      users[socket.id] = msgData.userName;
       io.emit('updateUsersList', users);
     }
+    // Skicka ut det nya meddelandet
     io.emit('chat-message', msgData);
   });
 
+  // När någon lämnar chatten
   socket.on('disconnect', () => {
-    io.emit('change', `${users[socket.id]} lämnade chatten.`);
+    // Meddela övriga användare om vem som lämnat
+    io.emit('change', `${users[socket.id]} lämnade chatten`);
+    // Ta bort användaren från objektet med användare
     delete users[socket.id];
+    // Skicka signal till klienten att uppdatera listan med användare
     io.emit('updateUsersList', users);
-    //users = users.filter((user) => user.id !== socket.id);
+  });
+
+  socket.on('typing', (user) => {
+    // if (users[socket.id] === user.userName) {
+    //   io.emit('typing', `${user} skriver...`);
+    // } else {
+    //   io.emit('typing', `${users[socket.id]} amn och skriver ett meddelande...`);
+    // }
+
+    io.emit('typing', `${users[socket.id]} skriver...`);
   });
 });
 
