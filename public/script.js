@@ -22,8 +22,9 @@ form.addEventListener('submit', (e) => {
 });
 
 // När en användare skriver skickar en signal till servern om det
-input.addEventListener('keypress', (e) => {
+input.addEventListener('keyup', (e) => {
   if (userName.value) socket.emit('typing', userName.value);
+  if (!input.value) socket.emit('no-longer-typing');
 });
 
 // När servern skickar en signal om att uppdatera listan med användare online
@@ -38,10 +39,13 @@ socket.on('updateUsersList', (users) => {
 // När servern skickar en signal om nytt chattmeddelande
 socket.on('chat-message', (msg) => {
   typingInfo.innerText = '';
+  const time = new Date().toLocaleTimeString('sv-SE').substring(0, 5);
+  console.log(time);
   let item = document.createElement('li');
-  item.textContent = `${msg.userName}: ${msg.msg}`;
+  item.textContent = `${msg.userName} ${time} : ${msg.msg}`;
   messages.appendChild(item);
-  window.scrollTo(0, document.body.scrollHeight);
+
+  messages.lastElementChild.scrollIntoView({ behavior: 'smooth' });
 });
 
 // När servern skickar en signal om att något ändrats, exempelvis någon som lämnat chatten eller bytt namn
@@ -55,4 +59,9 @@ socket.on('change', (msg) => {
 // När servern skickar meddelande om att en användare skriver
 socket.on('typing', (msg) => {
   typingInfo.innerText = msg;
+});
+
+// När klienten får meddelande från servern om att någon slutat skriva
+socket.on('no-longer-typing', () => {
+  typingInfo.innerText = '';
 });
