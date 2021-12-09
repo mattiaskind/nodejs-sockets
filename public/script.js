@@ -37,12 +37,12 @@ socket.on('updateUsersList', (users) => {
 });
 
 // När servern skickar en signal om nytt chattmeddelande
-socket.on('chat-message', (msg) => {
+socket.on('chat-message', (msgData) => {
   typingInfo.innerText = '';
   const time = new Date().toLocaleTimeString('sv-SE').substring(0, 5);
   console.log(time);
   let item = document.createElement('li');
-  item.textContent = `${msg.userName} ${time} : ${msg.msg}`;
+  item.textContent = `${msgData.userName} ${time} : ${msgData.msg}`;
   messages.appendChild(item);
 
   messages.lastElementChild.scrollIntoView({ behavior: 'smooth' });

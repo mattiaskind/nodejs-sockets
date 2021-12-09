@@ -22,6 +22,7 @@ io.on('connection', (socket) => {
   // Körs vid ny anslutning
   users[socket.id] = guest;
   io.emit('updateUsersList', users);
+  socket.broadcast.emit('change', 'En användare anslöt');
 
   // När servern tar emot ett nytt chatmeddelande
   socket.on('chat-message', (msgData) => {
