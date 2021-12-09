@@ -33,8 +33,8 @@ io.on('connection', (socket) => {
       users[socket.id] = msgData.userName;
       io.emit('updateUsersList', users);
     }
-    // Skicka ut det nya meddelandet
-    io.emit('chat-message', msgData);
+    // Skicka ut det nya meddelandet till alla utom klienten som skickade meddelandet
+    socket.broadcast.emit('chat-message', msgData);
   });
 
   // När någon lämnar chatten

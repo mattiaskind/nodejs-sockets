@@ -16,7 +16,16 @@ form.addEventListener('submit', (e) => {
       userName: userName.value,
       msg: input.value,
     };
+
     socket.emit('chat-message', msgData);
+
+    // Lägg till meddelande hos klienten utan att vänta på svar från servern
+    const time = new Date().toLocaleTimeString('sv-SE').substring(0, 5);
+    console.log(time);
+    let item = document.createElement('li');
+    item.textContent = `${msgData.userName} ${time} : ${msgData.msg}`;
+    messages.appendChild(item);
+    messages.lastElementChild.scrollIntoView({ behavior: 'smooth' });
     input.value = '';
   }
 });
