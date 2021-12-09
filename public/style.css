@@ -108,7 +108,7 @@ button {
   font-size: 1.2rem;
   font-weight: 700;
   text-transform: uppercase;
-  padding-left: 1.5rem;
+  padding-left: 2rem;
 }
 
 .online-list {
@@ -116,6 +116,7 @@ button {
   display: flex;
   gap: 0.5rem;
   background-color: rgb(108, 184, 160);
+  padding-left: 2rem;
   padding-block: 0.5rem;
   margin: 0.2rem;
 }
