@@ -19,7 +19,7 @@ form.addEventListener('submit', (e) => {
 
     socket.emit('chat-message', msgData);
 
-    // Lägg till meddelande hos klienten utan att vänta på svar från servern
+    // Lägg till aktuell klients egna meddalende hos klienten utan att vänta på svar från servern
     const time = new Date().toLocaleTimeString('sv-SE').substring(0, 5);
     console.log(time);
     let item = document.createElement('li');

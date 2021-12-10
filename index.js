@@ -26,13 +26,22 @@ io.on('connection', (socket) => {
 
   // När servern tar emot ett nytt chatmeddelande
   socket.on('chat-message', (msgData) => {
+    const replaceChars = {
+      '<': '&lt;',
+      '>': '&gt;',
+    };
     // Kontrollera om användarnamnet har ändrats och uppdatera i så fall det samt sänd
     // ut det nya användarnamnet till övriga deltagare
     if (users[socket.id] !== msgData.userName) {
+      // Ersätt eventuella krokodilkäftar
+      msgData.userName = msgData.userName.replace(/<|>/g, (ch) => replaceChars[ch]);
+
       socket.broadcast.emit('change', `${users[socket.id]} ändrade namn till ${msgData.userName}`);
       users[socket.id] = msgData.userName;
       io.emit('updateUsersList', users);
     }
+
+    //msgData.msg = msgData.msg.replace(/<|>/g, (ch) => replaceChars[ch]);
     // Skicka ut det nya meddelandet till alla utom klienten som skickade meddelandet
     socket.broadcast.emit('chat-message', msgData);
   });
