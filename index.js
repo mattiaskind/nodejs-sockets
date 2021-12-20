@@ -48,6 +48,7 @@ io.on('connection', (socket) => {
 
   // När någon lämnar chatten
   socket.on('disconnect', () => {
+    socket.broadcast.emit('no-longer-typing');
     // Meddela övriga användare om vem som lämnat
     socket.broadcast.emit('change', `${users[socket.id]} lämnade chatten`);
     // Ta bort användaren från objektet med användare
